@@ -4,6 +4,7 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.whitelister.Whitelister;
+import net.quetzi.whitelister.util.Refs;
 import net.quetzi.whitelister.util.WhitelistFetcher;
 
 import java.util.ArrayList;
@@ -48,17 +49,17 @@ public class CommandWhitelist implements ICommand {
 
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
-                Whitelister.log.info(WhitelistFetcher.updateWhitelist() ? "Whitelist reloaded" : "Whitelist reload failed");
+                Whitelister.log.info(WhitelistFetcher.updateWhitelist() ? Refs.RELOAD_SUCCESS : Refs.RELOAD_FAILED);
             } else if (args[0].equalsIgnoreCase("enable")) {
                 Whitelister.isEnabled = true;
                 Whitelister.config.get("Settings", "WhitelistEnabled", false).set(true);
                 Whitelister.config.save();
-                commandSender.addChatMessage(new ChatComponentText("Remote whitelist enabled."));
+                commandSender.addChatMessage(new ChatComponentText(Refs.ENABLED));
             } else if (args[0].equalsIgnoreCase("disable")) {
                 Whitelister.isEnabled = false;
                 Whitelister.config.get("Settings", "WhitelistEnabled", false).set(false);
                 Whitelister.config.save();
-                commandSender.addChatMessage(new ChatComponentText("Remote whitelist disabled."));
+                commandSender.addChatMessage(new ChatComponentText(Refs.DISABLED));
             } else if (args[0].equalsIgnoreCase("export")) {
                 WhitelistFetcher.writeWhitelist();
                 commandSender.addChatMessage(new ChatComponentText("Remote whitelist written to whitelist-export.txt."));
@@ -70,7 +71,7 @@ public class CommandWhitelist implements ICommand {
                 }
                 commandSender.addChatMessage(new ChatComponentText(list));
             }
-        } else commandSender.addChatMessage(new ChatComponentText("Syntax: /qw reload, /qw enable, /qw disable, /qw export, /qw list"));
+        } else commandSender.addChatMessage(new ChatComponentText(Refs.WHITELISTCMD_SYNTAX));
 
     }
 

@@ -11,4 +11,10 @@ public class Refs {
     public static final String VERSION = MINOR + "." + MAJOR;
     public static final String BUILD   = "@BUILD_NUMBER@";
     public static final String CFGGENERAL = "General Settings";
+
+    public static final String WHITELISTCMD_SYNTAX = "Syntax: /qw reload, /qw enable, /qw disable, /qw export, /qw list";
+    public static final String RELOAD_SUCCESS = "Whitelist successfully reloaded";
+    public static final String RELOAD_FAILED = "Whitelist could not be reloaded";
+    public static final String ENABLED = "Whitelist enabled";
+    public static final String DISABLED = "Whitelist disabled";
 }
