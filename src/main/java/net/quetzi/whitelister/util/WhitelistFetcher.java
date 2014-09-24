@@ -69,7 +69,7 @@ public class WhitelistFetcher implements Runnable {
                 return false;
             }
         }
-        return false;
+        return true;
     }
 
     private static boolean getRemoteWhitelist(String urlString) {
