@@ -31,6 +31,7 @@ public class Whitelister {
     public static String[] urlList;
     public static int checkInterval;
     public static Set<String> whitelist = new HashSet<String>();
+    public static String kickMessage;
 
     @Mod.EventHandler
     @SideOnly(Side.SERVER)
@@ -44,6 +45,7 @@ public class Whitelister {
         isEnabled = config.getBoolean("isEnabled", Refs.CFGGENERAL, false, "Enable the whitelist");
         urlList = config.getStringList("urlList", Refs.CFGGENERAL, defaultUrls, "Comma separated url List");
         checkInterval = config.getInt("checkInterval", Refs.CFGGENERAL, 10, 1, 32000, "Time between checks in minutes");
+        kickMessage = config.getString("kickMessage", Refs.CFGGENERAL, "You are not on the whitelist", "Kick message");
 
         if(config.hasChanged()) config.save();
         if (isEnabled && urlList.length > 0) {
