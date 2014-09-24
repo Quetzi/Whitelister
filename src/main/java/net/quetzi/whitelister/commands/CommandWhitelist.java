@@ -67,7 +67,7 @@ public class CommandWhitelist implements ICommand {
                 String list = "Users: ";
                 Iterator<String> ite = Whitelister.whitelist.iterator();
                 while (ite.hasNext()) {
-                    list = list + ite.next() + (ite.hasNext() ? ", " : ".");
+                    list = list + ite.next() + (ite.hasNext() ? ", " : "");
                 }
                 commandSender.addChatMessage(new ChatComponentText(list));
             }
