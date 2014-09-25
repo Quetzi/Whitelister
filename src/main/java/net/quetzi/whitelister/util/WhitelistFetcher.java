@@ -63,8 +63,8 @@ public class WhitelistFetcher implements Runnable {
             if (getRemoteWhitelist(url)) {
                 Whitelister.log.info("Fetched whitelist from " + url);
             } else {
-                Whitelister.log.warn("Failed to fetch whitelist from " + url);
-                Whitelister.log.warn("One or more whitelists failed to load, using cached whitelist");
+                Whitelister.log.warning("Failed to fetch whitelist from " + url);
+                Whitelister.log.warning("One or more whitelists failed to load, using cached whitelist");
                 Whitelister.whitelist = cache;
                 return false;
             }

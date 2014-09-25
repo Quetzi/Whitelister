@@ -1,15 +1,15 @@
 package net.quetzi.whitelister.commands;
 
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-import net.quetzi.whitelister.Whitelister;
-import net.quetzi.whitelister.util.Refs;
-import net.quetzi.whitelister.util.WhitelistFetcher;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.util.ChatMessageComponent;
+import net.quetzi.whitelister.Whitelister;
+import net.quetzi.whitelister.util.Refs;
+import net.quetzi.whitelister.util.WhitelistFetcher;
 
 public class CommandWhitelist implements ICommand {
 
@@ -54,24 +54,24 @@ public class CommandWhitelist implements ICommand {
                 Whitelister.isEnabled = true;
                 Whitelister.config.get("Settings", "WhitelistEnabled", false).set(true);
                 Whitelister.config.save();
-                commandSender.addChatMessage(new ChatComponentText(Refs.ENABLED));
+                commandSender.sendChatToPlayer(ChatMessageComponent.createFromText(Refs.ENABLED));
             } else if (args[0].equalsIgnoreCase("disable")) {
                 Whitelister.isEnabled = false;
                 Whitelister.config.get("Settings", "WhitelistEnabled", false).set(false);
                 Whitelister.config.save();
-                commandSender.addChatMessage(new ChatComponentText(Refs.DISABLED));
+                commandSender.sendChatToPlayer(ChatMessageComponent.createFromText(Refs.DISABLED));
             } else if (args[0].equalsIgnoreCase("export")) {
                 WhitelistFetcher.writeWhitelist();
-                commandSender.addChatMessage(new ChatComponentText("Remote whitelist written to whitelist-export.txt."));
+                commandSender.sendChatToPlayer(ChatMessageComponent.createFromText("Remote whitelist written to whitelist-export.txt."));
             } else if (args[0].equalsIgnoreCase("list")) {
                 String list = "Users: ";
                 Iterator<String> ite = Whitelister.whitelist.iterator();
                 while (ite.hasNext()) {
                     list = list + ite.next() + (ite.hasNext() ? ", " : "");
                 }
-                commandSender.addChatMessage(new ChatComponentText(list));
+                commandSender.sendChatToPlayer(ChatMessageComponent.createFromText(list));
             }
-        } else commandSender.addChatMessage(new ChatComponentText(Refs.WHITELISTCMD_SYNTAX));
+        } else commandSender.sendChatToPlayer(ChatMessageComponent.createFromText(Refs.WHITELISTCMD_SYNTAX));
 
     }
 
