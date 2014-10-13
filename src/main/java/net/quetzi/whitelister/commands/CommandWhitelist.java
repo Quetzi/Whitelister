@@ -65,7 +65,7 @@ public class CommandWhitelist implements ICommand {
                 commandSender.addChatMessage(new ChatComponentText("Remote whitelist written to whitelist-export.txt."));
             } else if (args[0].equalsIgnoreCase("list")) {
                 String list = "Users: ";
-                Iterator<String> ite = Whitelister.whitelist.iterator();
+                Iterator<String> ite = Whitelister.whitelist.values().iterator().next().iterator();
                 while (ite.hasNext()) {
                     list = list + ite.next() + (ite.hasNext() ? ", " : "");
                 }
