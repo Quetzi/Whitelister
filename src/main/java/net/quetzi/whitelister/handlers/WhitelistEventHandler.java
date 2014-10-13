@@ -6,6 +6,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.quetzi.whitelister.Whitelister;
 
+import java.util.Set;
+
 /**
  * Created by Quetzi on 24/09/14.
  */
@@ -20,12 +22,14 @@ public class WhitelistEventHandler {
             return;
         }
 
-        if (!Whitelister.whitelist.contains(event.player.getGameProfile().getName().toLowerCase())) {
-            Whitelister.log.info(event.player.getGameProfile().getName() + " not on whitelist.");
-            Whitelister.log.info("Blocking " + event.player.getGameProfile().getName());
-            ((EntityPlayerMP) event.player).playerNetServerHandler.kickPlayerFromServer(Whitelister.kickMessage);
-        } else {
-            Whitelister.log.info("Allowing " + event.player.getGameProfile().getName());
+        for (Set<String> list : Whitelister.whitelist.values()) {
+            if (!list.contains(event.player.getGameProfile().getName().toLowerCase())) {
+                Whitelister.log.info(event.player.getGameProfile().getName() + " not on whitelist.");
+                Whitelister.log.info("Blocking " + event.player.getGameProfile().getName());
+                ((EntityPlayerMP) event.player).playerNetServerHandler.kickPlayerFromServer(Whitelister.kickMessage);
+            } else {
+                Whitelister.log.info("Allowing " + event.player.getGameProfile().getName());
+            }
         }
     }
 }

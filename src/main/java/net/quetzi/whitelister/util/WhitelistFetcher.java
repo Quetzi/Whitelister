@@ -6,12 +6,13 @@ import net.quetzi.whitelister.Whitelister;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Quetzi on 24/09/14.
  */
 public class WhitelistFetcher implements Runnable {
+
 
     public void run() {
 
@@ -44,8 +45,10 @@ public class WhitelistFetcher implements Runnable {
             FileWriter fstream = new FileWriter(whitelistSave);
             BufferedWriter out = new BufferedWriter(fstream);
 
-            for (String player : Whitelister.whitelist) {
-                out.write(player + "\n");
+            for (String url : Whitelister.whitelist.keySet()) {
+                for (String player : Whitelister.whitelist.get(url)) {
+                    out.write(player + "\n");
+                }
             }
             out.close();
             return true;
@@ -57,16 +60,14 @@ public class WhitelistFetcher implements Runnable {
 
     public static boolean updateWhitelist() {
 
-        Set<String> cache = Whitelister.whitelist;
+        HashMap<String, Set<String>> cachedWhitelist = Whitelister.whitelist;
         Whitelister.whitelist.clear();
         for(String url : Whitelister.urlList) {
             if (getRemoteWhitelist(url)) {
                 Whitelister.log.info("Fetched whitelist from " + url);
             } else {
-                Whitelister.log.warn("Failed to fetch whitelist from " + url);
-                Whitelister.log.warn("One or more whitelists failed to load, using cached whitelist");
-                Whitelister.whitelist = cache;
-                return false;
+                Whitelister.log.warn("Failed to fetch whitelist from " + url + " using cached list for this source");
+                Whitelister.whitelist.put(url, cachedWhitelist.get(url));
             }
         }
         return true;
@@ -81,10 +82,14 @@ public class WhitelistFetcher implements Runnable {
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
+                Set<String> tempList = new HashSet<String>();
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
                     inputLine = inputLine.trim();
-                    Whitelister.whitelist.add(inputLine.toLowerCase());
+                    tempList.add(inputLine.toLowerCase());
+                }
+                if (!tempList.isEmpty()) {
+                    Whitelister.whitelist.put(urlString, tempList);
                 }
                 in.close();
             } catch (IOException e) {

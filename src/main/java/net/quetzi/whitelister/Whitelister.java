@@ -15,6 +15,7 @@ import net.quetzi.whitelister.util.WhitelistFetcher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class Whitelister {
     public static boolean isEnabled;
     public static String[] urlList;
     public static int checkInterval;
-    public static Set<String> whitelist = new HashSet<String>();
+    public static HashMap<String, Set<String>> whitelist = new HashMap<String, Set<String>>();
     public static String kickMessage;
 
     @Mod.EventHandler
