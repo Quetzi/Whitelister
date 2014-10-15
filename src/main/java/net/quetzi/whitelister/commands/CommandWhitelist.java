@@ -10,6 +10,7 @@ import net.quetzi.whitelister.util.WhitelistFetcher;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class CommandWhitelist implements ICommand {
 
@@ -65,9 +66,15 @@ public class CommandWhitelist implements ICommand {
                 commandSender.addChatMessage(new ChatComponentText("Remote whitelist written to whitelist-export.txt."));
             } else if (args[0].equalsIgnoreCase("list")) {
                 String list = "Users: ";
-                Iterator<String> ite = Whitelister.whitelist.values().iterator().next().iterator();
-                while (ite.hasNext()) {
-                    list = list + ite.next() + (ite.hasNext() ? ", " : "");
+                Iterator<Set<String>> listIterator = Whitelister.whitelist.values().iterator();
+                while (listIterator.hasNext()) {
+                    Iterator<String> playerIterator = listIterator.next().iterator();
+                    while (playerIterator.hasNext()) {
+                        list = list + playerIterator.next();
+                        if (playerIterator.hasNext() || listIterator.hasNext()) {
+                            list = list + ", ";
+                        }
+                    }
                 }
                 commandSender.addChatMessage(new ChatComponentText(list));
             }
