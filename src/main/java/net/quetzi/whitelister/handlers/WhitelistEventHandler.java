@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.quetzi.whitelister.Whitelister;
 
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -22,14 +23,23 @@ public class WhitelistEventHandler {
             return;
         }
 
-        for (Set<String> list : Whitelister.whitelist.values()) {
-            if (!list.contains(event.player.getGameProfile().getName().toLowerCase())) {
-                Whitelister.log.info(event.player.getGameProfile().getName() + " not on whitelist.");
-                Whitelister.log.info("Blocking " + event.player.getGameProfile().getName());
-                ((EntityPlayerMP) event.player).playerNetServerHandler.kickPlayerFromServer(Whitelister.kickMessage);
-            } else {
-                Whitelister.log.info("Allowing " + event.player.getGameProfile().getName());
+        if (!isWhitelisted(event.player.getGameProfile().getName().toLowerCase())) {
+            Whitelister.log.info(event.player.getGameProfile().getName() + " not on whitelist.");
+            Whitelister.log.info("Blocking " + event.player.getGameProfile().getName());
+            ((EntityPlayerMP) event.player).playerNetServerHandler.kickPlayerFromServer(Whitelister.kickMessage);
+        } else {
+            Whitelister.log.info("Allowing " + event.player.getGameProfile().getName());
+        }
+    }
+
+    private boolean isWhitelisted(String username) {
+
+        Iterator<Set<String>> lists = Whitelister.whitelist.values().iterator();
+        while (lists.hasNext()) {
+            if (lists.next().contains(username)) {
+                return true;
             }
         }
+        return false;
     }
 }
