@@ -50,7 +50,7 @@ public class CommandWhitelist implements ICommand {
 
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
-                Whitelister.log.info(WhitelistFetcher.updateWhitelist() ? Refs.RELOAD_SUCCESS : Refs.RELOAD_FAILED);
+                Whitelister.log.info(WhitelistFetcher.updateWhitelist() > 0 ? Refs.RELOAD_SUCCESS : Refs.RELOAD_FAILED);
             } else if (args[0].equalsIgnoreCase("enable")) {
                 Whitelister.isEnabled = true;
                 Whitelister.config.get("Settings", "WhitelistEnabled", false).set(true);

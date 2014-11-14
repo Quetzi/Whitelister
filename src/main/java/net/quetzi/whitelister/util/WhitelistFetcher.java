@@ -18,9 +18,9 @@ public class WhitelistFetcher implements Runnable {
 
         Thread.currentThread().setName("Whitelister");
         while (!Thread.currentThread().isInterrupted()) {
-            Whitelister.log.info("Reloading whitelist.");
-            if (updateWhitelist()) {
-                Whitelister.log.info("Whitelist reloaded.");
+            int reloadedLists = updateWhitelist();
+            if (reloadedLists > 0) {
+                Whitelister.log.info("Reloaded " + reloadedLists + "/" + Whitelister.whitelist.size() + " whitelist" + (reloadedLists > 1 ? "s." : "."));
             }
             else {
                 Whitelister.log.info("Error reloading whitelist.");
@@ -40,7 +40,7 @@ public class WhitelistFetcher implements Runnable {
         if (whitelistSave.exists()) whitelistSave.delete();
         try {
             if (!whitelistSave.createNewFile()) {
-                Whitelister.log.info(("Error saving whitelist"));
+                Whitelister.log.info("Error saving whitelist");
             }
             FileWriter fstream = new FileWriter(whitelistSave);
             BufferedWriter out = new BufferedWriter(fstream);
@@ -58,19 +58,20 @@ public class WhitelistFetcher implements Runnable {
         return false;
     }
 
-    public static boolean updateWhitelist() {
+    public static int updateWhitelist() {
 
         HashMap<String, Set<String>> cachedWhitelist = Whitelister.whitelist;
+        int successCount = 0;
         Whitelister.whitelist.clear();
         for(String url : Whitelister.urlList) {
             if (getRemoteWhitelist(url)) {
-                Whitelister.log.info("Fetched whitelist from " + url);
+                successCount++;
             } else {
                 Whitelister.log.warn("Failed to fetch whitelist from " + url + " using cached list for this source");
                 Whitelister.whitelist.put(url, cachedWhitelist.get(url));
             }
         }
-        return true;
+        return successCount;
     }
 
     private static boolean getRemoteWhitelist(String urlString) {
