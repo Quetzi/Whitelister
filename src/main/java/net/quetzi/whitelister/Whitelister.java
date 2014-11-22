@@ -1,13 +1,13 @@
 package net.quetzi.whitelister;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+//import net.minecraftforge.common.config.Configuration;
 import net.quetzi.whitelister.commands.CommandWhitelist;
 import net.quetzi.whitelister.handlers.WhitelistEventHandler;
 import net.quetzi.whitelister.util.Refs;
@@ -26,7 +26,7 @@ import java.util.Set;
 public class Whitelister {
 
     public static Logger log = LogManager.getLogger("Whitelister");
-    public static Configuration config;
+//    public static Configuration config;
     public static boolean isEnabled;
     public static String[] urlList;
     public static int checkInterval;
@@ -38,16 +38,17 @@ public class Whitelister {
     public void PreInit(FMLPreInitializationEvent event) {
 
         String[] defaultUrls = { "http://example.com/whitelist.txt", "http://example.com/whitelist2.txt" };
+        String[] customUrls = { "http://whitelist.twitchapps.com/list.php?id=quetzi52d7d8cc949e3", "http://wtfcool.com/patreon/patrons.txt"};
         log = event.getModLog();
-        config = new Configuration(event.getSuggestedConfigurationFile());
+//        config = new Configuration(event.getSuggestedConfigurationFile());
 
-        config.load();
-        isEnabled = config.getBoolean("isEnabled", Refs.CFGGENERAL, false, "Enable the whitelist");
-        urlList = config.getStringList("urlList", Refs.CFGGENERAL, defaultUrls, "Comma separated url List");
-        checkInterval = config.getInt("checkInterval", Refs.CFGGENERAL, 10, 1, 32000, "Time between checks in minutes");
-        kickMessage = config.getString("kickMessage", Refs.CFGGENERAL, "You are not on the whitelist", "Kick message");
+//        config.load();
+        isEnabled = true; //config.getBoolean("isEnabled", Refs.CFGGENERAL, false, "Enable the whitelist");
+        urlList = customUrls; //config.getStringList("urlList", Refs.CFGGENERAL, defaultUrls, "Comma separated url List");
+        checkInterval = 10; //config.getInt("checkInterval", Refs.CFGGENERAL, 10, 1, 32000, "Time between checks in minutes");
+        kickMessage = "You are not on the whitelist"; //config.getString("kickMessage", Refs.CFGGENERAL, "You are not on the whitelist", "Kick message");
 
-        if(config.hasChanged()) config.save();
+//        if(config.hasChanged()) config.save();
         if (isEnabled && urlList.length > 0) {
             new Thread(new WhitelistFetcher()).start();
         }

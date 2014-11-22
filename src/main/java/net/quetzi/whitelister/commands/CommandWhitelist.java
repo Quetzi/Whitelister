@@ -2,6 +2,7 @@ package net.quetzi.whitelister.commands;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.whitelister.Whitelister;
 import net.quetzi.whitelister.util.Refs;
@@ -28,7 +29,7 @@ public class CommandWhitelist implements ICommand {
     }
 
     @Override
-    public String getCommandName() {
+    public String getName() {
 
         return "wl";
     }
@@ -40,26 +41,26 @@ public class CommandWhitelist implements ICommand {
     }
 
     @Override
-    public List getCommandAliases() {
+    public List getAliases() {
 
         return null;
     }
 
     @Override
-    public void processCommand(ICommandSender commandSender, String[] args) {
+    public void execute(ICommandSender commandSender, String[] args) {
 
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
                 Whitelister.log.info(WhitelistFetcher.updateWhitelist() > 0 ? Refs.RELOAD_SUCCESS : Refs.RELOAD_FAILED);
             } else if (args[0].equalsIgnoreCase("enable")) {
                 Whitelister.isEnabled = true;
-                Whitelister.config.get("Settings", "WhitelistEnabled", false).set(true);
-                Whitelister.config.save();
+//                Whitelister.config.get("Settings", "WhitelistEnabled", false).set(true);
+//                Whitelister.config.save();
                 commandSender.addChatMessage(new ChatComponentText(Refs.ENABLED));
             } else if (args[0].equalsIgnoreCase("disable")) {
                 Whitelister.isEnabled = false;
-                Whitelister.config.get("Settings", "WhitelistEnabled", false).set(false);
-                Whitelister.config.save();
+//                Whitelister.config.get("Settings", "WhitelistEnabled", false).set(false);
+//                Whitelister.config.save();
                 commandSender.addChatMessage(new ChatComponentText(Refs.DISABLED));
             } else if (args[0].equalsIgnoreCase("export")) {
                 WhitelistFetcher.writeWhitelist();
@@ -83,13 +84,13 @@ public class CommandWhitelist implements ICommand {
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender var1) {
+    public boolean canCommandSenderUse(ICommandSender var1) {
 
         return true;
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender var1, String[] var2) {
+    public List addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos pos) {
 
         return null;
     }

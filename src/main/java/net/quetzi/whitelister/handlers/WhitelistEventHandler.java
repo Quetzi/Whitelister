@@ -1,12 +1,11 @@
 package net.quetzi.whitelister.handlers;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.quetzi.whitelister.Whitelister;
 
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -18,9 +17,11 @@ public class WhitelistEventHandler {
     public void PlayerLoggedInHandler(PlayerEvent.PlayerLoggedInEvent event) {
 
         if(!Whitelister.isEnabled) return;
-        if (MinecraftServer.getServer().getConfigurationManager().func_152596_g(event.player.getGameProfile())) {
-            Whitelister.log.info("Allowing exempt " + event.player.getGameProfile().getName());
-            return;
+        for (String player : MinecraftServer.getServer().getConfigurationManager().getOppedPlayerNames()) {
+            if (player.toLowerCase().equals(event.player.getName().toLowerCase())) {
+                Whitelister.log.info("Allowing exempt " + event.player.getGameProfile().getName());
+                return;
+            }
         }
 
         if (!isWhitelisted(event.player.getGameProfile().getName().toLowerCase())) {
@@ -34,9 +35,8 @@ public class WhitelistEventHandler {
 
     private boolean isWhitelisted(String username) {
 
-        Iterator<Set<String>> lists = Whitelister.whitelist.values().iterator();
-        while (lists.hasNext()) {
-            if (lists.next().contains(username)) {
+        for (Set<String> list : Whitelister.whitelist.values()) {
+            if (list.contains(username)) {
                 return true;
             }
         }
