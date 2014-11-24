@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.quetzi.whitelister.commands.CommandWhitelist;
 import net.quetzi.whitelister.handlers.WhitelistEventHandler;
 import net.quetzi.whitelister.util.Refs;
 import net.quetzi.whitelister.util.WhitelistFetcher;
@@ -65,6 +66,6 @@ public class Whitelister {
     @SideOnly(Side.SERVER)
     public void serverLoad(FMLServerStartingEvent event) {
 
-//        event.registerServerCommand(new CommandWhitelist());
+        event.registerServerCommand(new CommandWhitelist());
     }
 }
