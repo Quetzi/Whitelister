@@ -65,8 +65,11 @@ public class CommandWhitelist extends CommandBase {
 //                Whitelister.config.save();
                 commandSender.addChatMessage(new ChatComponentText(Refs.DISABLED));
             } else if (args[0].equalsIgnoreCase("export")) {
-                WhitelistFetcher.writeWhitelist();
-                commandSender.addChatMessage(new ChatComponentText("Remote whitelist written to whitelist-export.txt."));
+                if (WhitelistFetcher.writeWhitelist()) {
+                    commandSender.addChatMessage(new ChatComponentText("Remote whitelist written to whitelist-export.txt."));
+                } else {
+                    commandSender.addChatMessage(new ChatComponentText("Whitelist export failed."));
+                }
             } else if (args[0].equalsIgnoreCase("list")) {
                 String list = "Users: ";
                 Iterator<Set<String>> listIterator = Whitelister.whitelist.values().iterator();

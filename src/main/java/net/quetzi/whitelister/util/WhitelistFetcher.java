@@ -1,5 +1,6 @@
 package net.quetzi.whitelister.util;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.quetzi.whitelister.Whitelister;
 
@@ -35,12 +36,13 @@ public class WhitelistFetcher implements Runnable {
 
     public static boolean writeWhitelist() {
 
-        File whitelistSave = new File(MinecraftServer.getServer().getFolderName(), "whitelist-export.txt");
+        File whitelistSave = new File(MinecraftServer.getServer().getDataDirectory(), "whitelist-export.txt");
 
+        Whitelister.log.info("Whitelist export location: " + whitelistSave.getAbsolutePath());
         if (whitelistSave.exists()) whitelistSave.delete();
         try {
             if (!whitelistSave.createNewFile()) {
-                Whitelister.log.info("Error saving whitelist");
+                Whitelister.log.info("Error saving whitelist: " + whitelistSave.getAbsolutePath());
             }
             FileWriter fstream = new FileWriter(whitelistSave);
             BufferedWriter out = new BufferedWriter(fstream);

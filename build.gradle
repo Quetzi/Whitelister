@@ -35,7 +35,7 @@ archivesBaseName = "Whitelister"
 
 minecraft {
     version = "${project.ext.mcVersion}-8.0.9.1016-1.8"
-    assetDir = "eclipse/assets"
+    runDir = "eclipse/assets"
     mappings = "snapshot_20141121"
 
     // replacing stuff in the source
