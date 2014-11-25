@@ -18,8 +18,8 @@ buildscript {
 apply plugin: 'forge'
 
 project.ext {
-    major = "0"
-    minor = "1"
+    major = "1"
+    minor = "0"
     mcVersion = "1.7.10"
 }
 
