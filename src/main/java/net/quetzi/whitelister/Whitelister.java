@@ -10,10 +10,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.quetzi.whitelister.commands.CommandWhitelist;
 import net.quetzi.whitelister.handlers.WhitelistEventHandler;
 import net.quetzi.whitelister.util.Refs;
+import net.quetzi.whitelister.util.StringFetcher;
 import net.quetzi.whitelister.util.WhitelistFetcher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -38,8 +42,21 @@ public class Whitelister {
     @SideOnly(Side.SERVER)
     public void PreInit(FMLPreInitializationEvent event) {
 
-        String[] defaultUrls = { "http://example.com/whitelist.txt", "http://example.com/whitelist2.txt" };
-        String[] customUrls = { "http://whitelist.twitchapps.com/list.php?id=quetzi52d7d8cc949e3", "http://wtfcool.com/patreon/patrons.txt"};
+//        String[] defaultUrls = { "http://example.com/whitelist.txt", "http://example.com/whitelist2.txt" };
+        String configFile = event.getModConfigurationDirectory().getAbsolutePath() + "/whitelistslist.txt";
+        File configurationFile = new File(configFile);
+        if (!configurationFile.exists()) {
+            try {
+                if (configurationFile.createNewFile()) {
+                    log.info("Created blank configuration file at " + configFile);
+                } else {
+                    log.error("Could not create blank configuration file at " + configFile);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        String[] customUrls = StringFetcher.getStrings(configFile);
         log = event.getModLog();
 //        config = new Configuration(event.getSuggestedConfigurationFile());
 
