@@ -35,7 +35,7 @@ public class WhitelistFetcher implements Runnable {
 
     public static boolean writeWhitelist() {
 
-        File whitelistSave = new File(MinecraftServer.getServer().getDataDirectory(), "whitelist-export.txt");
+        File whitelistSave = new File(MinecraftServer.getServer().getFolderName(), "../whitelist-export.txt");
 
         if (whitelistSave.exists()) whitelistSave.delete();
         try {
