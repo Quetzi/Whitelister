@@ -10,18 +10,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.quetzi.whitelister.commands.CommandWhitelist;
 import net.quetzi.whitelister.handlers.WhitelistEventHandler;
 import net.quetzi.whitelister.util.Refs;
-import net.quetzi.whitelister.util.StringFetcher;
 import net.quetzi.whitelister.util.WhitelistFetcher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-//import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Configuration;
 
 /**
  * Created by Quetzi on 24/09/14.
@@ -31,7 +27,7 @@ import java.util.Set;
 public class Whitelister {
 
     public static Logger log = LogManager.getLogger("Whitelister");
-//    public static Configuration config;
+    public static Configuration config;
     public static boolean isEnabled;
     public static String[] urlList;
     public static int checkInterval;
@@ -42,31 +38,17 @@ public class Whitelister {
     @SideOnly(Side.SERVER)
     public void PreInit(FMLPreInitializationEvent event) {
 
-//        String[] defaultUrls = { "http://example.com/whitelist.txt", "http://example.com/whitelist2.txt" };
-        String configFile = event.getModConfigurationDirectory().getAbsolutePath() + "/whitelistslist.txt";
-        File configurationFile = new File(configFile);
-        if (!configurationFile.exists()) {
-            try {
-                if (configurationFile.createNewFile()) {
-                    log.info("Created blank configuration file at " + configFile);
-                } else {
-                    log.error("Could not create blank configuration file at " + configFile);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        String[] customUrls = StringFetcher.getStrings(configFile);
+        String[] defaultUrls = { "http://example.com/whitelist.txt", "http://example.com/whitelist2.txt" };
         log = event.getModLog();
-//        config = new Configuration(event.getSuggestedConfigurationFile());
+        config = new Configuration(event.getSuggestedConfigurationFile());
 
-//        config.load();
-        isEnabled = true; //config.getBoolean("isEnabled", Refs.CFGGENERAL, false, "Enable the whitelist");
-        urlList = customUrls; //config.getStringList("urlList", Refs.CFGGENERAL, defaultUrls, "Comma separated url List");
-        checkInterval = 10; //config.getInt("checkInterval", Refs.CFGGENERAL, 10, 1, 32000, "Time between checks in minutes");
-        kickMessage = "You are not on the whitelist"; //config.getString("kickMessage", Refs.CFGGENERAL, "You are not on the whitelist", "Kick message");
+        config.load();
+        isEnabled = config.getBoolean("isEnabled", Refs.CFGGENERAL, false, "Enable the whitelist");
+        urlList = config.getStringList("urlList", Refs.CFGGENERAL, defaultUrls, "Comma separated url List");
+        checkInterval = config.getInt("checkInterval", Refs.CFGGENERAL, 10, 1, 32000, "Time between checks in minutes");
+        kickMessage = config.getString("kickMessage", Refs.CFGGENERAL, "You are not on the whitelist", "Kick message");
 
-//        if(config.hasChanged()) config.save();
+        if(config.hasChanged()) config.save();
         if (isEnabled && urlList.length > 0) {
             new Thread(new WhitelistFetcher()).start();
         }

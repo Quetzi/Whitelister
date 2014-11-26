@@ -15,7 +15,7 @@ buildscript {
     }
 }
 
-apply plugin: 'fml'
+apply plugin: 'forge'
 
 project.ext {
     major = "0"
@@ -34,8 +34,8 @@ group = "net.quetzi.whitelister"
 archivesBaseName = "Whitelister"
 
 minecraft {
-    version = "${project.ext.mcVersion}-8.0.9.1016-1.8"
-    runDir = "eclipse/assets"
+    version = "${project.ext.mcVersion}-11.14.0.1239-1.8"
+    runDir = "eclipse"
     mappings = "snapshot_20141121"
 
     // replacing stuff in the source
