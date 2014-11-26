@@ -56,13 +56,13 @@ public class CommandWhitelist extends CommandBase {
                 Whitelister.log.info(WhitelistFetcher.updateWhitelist() > 0 ? Refs.RELOAD_SUCCESS : Refs.RELOAD_FAILED);
             } else if (args[0].equalsIgnoreCase("enable")) {
                 Whitelister.isEnabled = true;
-//                Whitelister.config.get("Settings", "WhitelistEnabled", false).set(true);
-//                Whitelister.config.save();
+                Whitelister.config.get("Settings", "WhitelistEnabled", false).set(true);
+                Whitelister.config.save();
                 commandSender.addChatMessage(new ChatComponentText(Refs.ENABLED));
             } else if (args[0].equalsIgnoreCase("disable")) {
                 Whitelister.isEnabled = false;
-//                Whitelister.config.get("Settings", "WhitelistEnabled", false).set(false);
-//                Whitelister.config.save();
+                Whitelister.config.get("Settings", "WhitelistEnabled", false).set(false);
+                Whitelister.config.save();
                 commandSender.addChatMessage(new ChatComponentText(Refs.DISABLED));
             } else if (args[0].equalsIgnoreCase("export")) {
                 if (WhitelistFetcher.writeWhitelist()) {
