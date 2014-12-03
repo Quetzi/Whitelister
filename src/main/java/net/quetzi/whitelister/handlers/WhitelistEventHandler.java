@@ -2,6 +2,7 @@ package net.quetzi.whitelister.handlers;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.quetzi.whitelister.Whitelister;
@@ -30,6 +31,9 @@ public class WhitelistEventHandler {
             ((EntityPlayerMP) event.player).playerNetServerHandler.kickPlayerFromServer(Whitelister.kickMessage);
         } else {
             Whitelister.log.info("Allowing " + event.player.getGameProfile().getName());
+        }
+        if (MinecraftServer.getServer().getConfigurationManager().isWhiteListEnabled()) {
+            event.player.addChatMessage(new ChatComponentText("WHITELIST IS CURRENTLY IN MAINTENANCE MODE"));
         }
     }
 

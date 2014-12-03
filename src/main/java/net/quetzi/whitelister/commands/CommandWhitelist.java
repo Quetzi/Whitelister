@@ -2,6 +2,7 @@ package net.quetzi.whitelister.commands;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.whitelister.Whitelister;
@@ -37,7 +38,7 @@ public class CommandWhitelist extends CommandBase {
     @Override
     public String getCommandUsage(ICommandSender var1) {
 
-        return "Syntax: /wl reload, /wl enable, /wl disable, /wl export, /wl list";
+        return "Syntax: /wl reload, /wl enable, /wl disable, /wl export, /wl list, /wl maintenance";
     }
 
     @Override
@@ -83,6 +84,9 @@ public class CommandWhitelist extends CommandBase {
                     }
                 }
                 commandSender.addChatMessage(new ChatComponentText(list));
+            } else if (args[0].equals("maintenance")) {
+                MinecraftServer.getServer().getConfigurationManager().setWhiteListEnabled(!MinecraftServer.getServer().getConfigurationManager().isWhiteListEnabled());
+                commandSender.addChatMessage(new ChatComponentText("Maintenance whitelist is now " + (MinecraftServer.getServer().getConfigurationManager().isWhiteListEnabled() ? "enabled" : "disabled")));
             }
         } else commandSender.addChatMessage(new ChatComponentText(Refs.WHITELISTCMD_SYNTAX));
 
