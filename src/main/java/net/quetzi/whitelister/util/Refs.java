@@ -8,8 +8,8 @@ public class Refs {
     public static final String NAME = "Whitelister";
     private static final String MAJOR   = "@MAJOR@";
     private static final String MINOR   = "@MINOR@";
-    public static final String VERSION = MINOR + "" + MAJOR;
     public static final String BUILD   = "@BUILD_NUMBER@";
+    public static final String VERSION = MAJOR + "." + MINOR + "." + BUILD;
     public static final String CFGGENERAL = "General Settings";
 
     public static final String WHITELISTCMD_SYNTAX = "Syntax: /qw reload, /qw enable, /qw disable, /qw export, /qw list";
