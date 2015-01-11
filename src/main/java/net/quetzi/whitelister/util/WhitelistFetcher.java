@@ -75,7 +75,6 @@ public class WhitelistFetcher implements Runnable {
     private static boolean getRemoteWhitelist(String urlString) {
 
         try {
-
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             try {

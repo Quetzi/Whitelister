@@ -11,7 +11,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.0-SNAPSHOT'
     }
 }
 
@@ -20,23 +20,23 @@ apply plugin: 'forge'
 project.ext {
     major = "0"
     minor = "1"
-    mcVersion = "1.7.10"
+    mcVersion = "1.6.4"
 }
 
 
 version = "${project.ext.major}.${project.minor}"
 group = "net.quetzi.whitelister"
-archivesBaseName = "Whitelister"
+archivesBaseName = "Whitelister" + "-" + mcVersion
 
 
 if (System.getenv().BUILD_NUMBER != null) {
     version += ".${System.getenv().BUILD_NUMBER}"
 } else {
-    version += " - err"
+    version += "-custom"
 }
 
 minecraft {
-    version = "${project.ext.mcVersion}-10.13.1.1217"
+    version = "${project.ext.mcVersion}-9.11.1.964"
     runDir = "eclipse/assets"
 
     // replacing stuff in the source

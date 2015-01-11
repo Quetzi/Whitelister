@@ -1,17 +1,5 @@
 package net.quetzi.whitelister;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-import net.quetzi.whitelister.commands.CommandWhitelist;
-import net.quetzi.whitelister.handlers.WhitelistPlayerTracker;
-import net.quetzi.whitelister.util.Refs;
-import net.quetzi.whitelister.util.WhitelistFetcher;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -20,6 +8,15 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.common.Configuration;
+import net.quetzi.whitelister.commands.CommandWhitelist;
+import net.quetzi.whitelister.handlers.WhitelistPlayerTracker;
+import net.quetzi.whitelister.util.Refs;
+import net.quetzi.whitelister.util.WhitelistFetcher;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * Created by Quetzi on 24/09/14.
@@ -50,7 +47,7 @@ public class Whitelister {
 
         config.load();
         isEnabled = config.get(Refs.CFGGENERAL, "isEnabled", false, "Enable the whitelist").getBoolean(false);
-        urlList = config.get(Refs.CFGGENERAL, "urlList", defaultUrls, "Comma separated url List").getStringList();
+        urlList = config.get(Refs.CFGGENERAL, "urlList", defaultUrls, "URl list, place each URL on its own line").getStringList();
         checkInterval = config.get(Refs.CFGGENERAL, "checkInterval", 10,  "Time between checks in minutes").getInt(10);
         kickMessage = config.get(Refs.CFGGENERAL, "kickMessage", "You are not on the whitelist", "Kick message").getString();
 

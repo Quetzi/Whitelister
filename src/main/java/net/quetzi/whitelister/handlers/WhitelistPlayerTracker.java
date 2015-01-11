@@ -31,19 +31,13 @@ public class WhitelistPlayerTracker implements IPlayerTracker {
 
 	@Override
 	public void onPlayerLogout(EntityPlayer player) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onPlayerChangedDimension(EntityPlayer player) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onPlayerRespawn(EntityPlayer player) {
-		// TODO Auto-generated method stub
-		
 	}
 }
