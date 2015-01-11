@@ -47,7 +47,7 @@ public class Whitelister {
 
         config.load();
         isEnabled = config.get(Refs.CFGGENERAL, "isEnabled", false, "Enable the whitelist").getBoolean(false);
-        urlList = config.get(Refs.CFGGENERAL, "urlList", defaultUrls, "URl list, place each URL on its own line").getStringList();
+        urlList = config.get(Refs.CFGGENERAL, "urlList", defaultUrls, "URL list, place each URL on its own line between double quotes").getStringList();
         checkInterval = config.get(Refs.CFGGENERAL, "checkInterval", 10,  "Time between checks in minutes").getInt(10);
         kickMessage = config.get(Refs.CFGGENERAL, "kickMessage", "You are not on the whitelist", "Kick message").getString();
 
