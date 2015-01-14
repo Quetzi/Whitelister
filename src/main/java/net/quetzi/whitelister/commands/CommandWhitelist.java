@@ -102,6 +102,6 @@ public class CommandWhitelist implements ICommand {
 
     public int getRequiredPermissionLevel() {
 
-        return 3;
+        return 4;
     }
 }
