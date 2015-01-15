@@ -92,26 +92,8 @@ public class CommandWhitelist extends CommandBase {
 
     }
 
-    @Override
-    public boolean canCommandSenderUse(ICommandSender var1) {
-
-        return true;
-    }
-
-    @Override
-    public List addTabCompletionOptions(ICommandSender var1, String[] var2, BlockPos pos) {
-
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] var1, int var2) {
-
-        return false;
-    }
-
     public int getRequiredPermissionLevel() {
 
-        return 4;
+        return 3;
     }
 }
