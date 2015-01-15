@@ -1,17 +1,17 @@
 package net.quetzi.whitelister.commands;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import net.minecraft.command.ICommand;
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatMessageComponent;
 import net.quetzi.whitelister.Whitelister;
 import net.quetzi.whitelister.util.Refs;
 import net.quetzi.whitelister.util.WhitelistFetcher;
 
-public class CommandWhitelist implements ICommand {
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class CommandWhitelist extends CommandBase {
 
     private List<String> aliases;
 
