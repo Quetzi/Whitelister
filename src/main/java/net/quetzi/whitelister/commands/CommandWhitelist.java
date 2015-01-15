@@ -1,6 +1,6 @@
 package net.quetzi.whitelister.commands;
 
-import net.minecraft.command.ICommand;
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.whitelister.Whitelister;
@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class CommandWhitelist implements ICommand {
+public class CommandWhitelist extends CommandBase {
 
     private List<String> aliases;
 
@@ -102,6 +102,6 @@ public class CommandWhitelist implements ICommand {
 
     public int getRequiredPermissionLevel() {
 
-        return 4;
+        return 3;
     }
 }
