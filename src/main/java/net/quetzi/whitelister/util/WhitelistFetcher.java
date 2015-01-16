@@ -60,6 +60,7 @@ public class WhitelistFetcher implements Runnable {
         Set<String> cache = Whitelister.whitelist;
         Whitelister.whitelist.clear();
         for(String url : Whitelister.urlList) {
+            url = url.trim();
             url = url.substring(1, url.length() -1);
             if (getRemoteWhitelist(url)) {
                 Whitelister.log.info("Fetched whitelist from " + url);
