@@ -64,7 +64,7 @@ public class WhitelistFetcher implements Runnable {
 
         HashMap<String, Set<String>> cachedWhitelist = Whitelister.whitelist;
         int successCount = 0;
-        Whitelister.whitelist.clear();
+        Whitelister.whitelist = new HashMap<String, Set<String>>();
         for(String url : Whitelister.urlList) {
             if (getRemoteWhitelist(url)) {
                 successCount++;

@@ -92,6 +92,7 @@ public class CommandWhitelist extends CommandBase {
 
     }
 
+    @Override
     public int getRequiredPermissionLevel() {
 
         return 3;
