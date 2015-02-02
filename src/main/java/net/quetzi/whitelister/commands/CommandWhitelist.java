@@ -30,13 +30,13 @@ public class CommandWhitelist extends CommandBase {
     }
 
     @Override
-    public String getName() {
+    public String getCommandName() {
 
         return "whitelister";
     }
 
     @Override
-    public String getCommandUsage(ICommandSender var1) {
+    public String getUsage(ICommandSender var1) {
 
         return "Syntax: /wl reload, /wl enable, /wl disable, /wl export, /wl list, /wl maintenance";
     }
@@ -50,7 +50,7 @@ public class CommandWhitelist extends CommandBase {
     }
 
     @Override
-    public void execute(ICommandSender commandSender, String[] args) {
+    public void processCommand(ICommandSender commandSender, String[] args) {
 
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
