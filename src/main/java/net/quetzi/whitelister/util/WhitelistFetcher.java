@@ -6,6 +6,7 @@ import net.quetzi.whitelister.Whitelister;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Set;
 
 /**
@@ -58,7 +59,7 @@ public class WhitelistFetcher implements Runnable {
     public static boolean updateWhitelist() {
 
         Set<String> cache = Whitelister.whitelist;
-        Whitelister.whitelist.clear();
+        Whitelister.whitelist= new HashMap<String, Set<String>>();
         for(String url : Whitelister.urlList) {
             url = url.trim();
             url = url.substring(1, url.length() -1);
