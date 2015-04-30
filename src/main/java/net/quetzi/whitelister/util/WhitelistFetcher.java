@@ -13,7 +13,6 @@ import java.util.*;
  */
 public class WhitelistFetcher implements Runnable {
 
-
     public void run() {
 
         Thread.currentThread().setName("Whitelister");
@@ -35,22 +34,25 @@ public class WhitelistFetcher implements Runnable {
 
     public static boolean writeWhitelist() {
 
-        File whitelistSave = new File(MinecraftServer.getServer().getFolderName(), "../whitelist-export.txt");
-
-        if (whitelistSave.exists()) whitelistSave.delete();
+        File whitelistSave;
         try {
-            if (!whitelistSave.createNewFile()) {
-                Whitelister.log.info("Error saving whitelist");
-            }
-            FileWriter fstream = new FileWriter(whitelistSave);
-            BufferedWriter out = new BufferedWriter(fstream);
+            int listCount = 0;
 
             for (String url : Whitelister.whitelist.keySet()) {
+                listCount++;
+                whitelistSave = new File(MinecraftServer.getServer().getFolderName(), "../whitelist-" + listCount + ".txt");
+                if (whitelistSave.exists()) whitelistSave.delete();
+                if (!whitelistSave.createNewFile()) {
+                    Whitelister.log.info("Error saving whitelist");
+                }
+                FileWriter fstream = new FileWriter(whitelistSave);
+                BufferedWriter out = new BufferedWriter(fstream);
+
                 for (String player : Whitelister.whitelist.get(url)) {
                     out.write(player + "\n");
                 }
+                out.close();
             }
-            out.close();
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -77,7 +79,6 @@ public class WhitelistFetcher implements Runnable {
     private static boolean getRemoteWhitelist(String urlString) {
 
         try {
-
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             try {
