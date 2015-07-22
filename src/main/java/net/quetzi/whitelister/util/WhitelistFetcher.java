@@ -1,5 +1,7 @@
 package net.quetzi.whitelister.util;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.minecraft.server.MinecraftServer;
 import net.quetzi.whitelister.Whitelister;
 
@@ -45,12 +47,35 @@ public class WhitelistFetcher implements Runnable {
                 if (!whitelistSave.createNewFile()) {
                     Whitelister.log.info("Error saving whitelist");
                 }
-                FileWriter fstream = new FileWriter(whitelistSave);
-                BufferedWriter out = new BufferedWriter(fstream);
+                BufferedWriter out = new BufferedWriter(new FileWriter(whitelistSave));
 
                 for (String player : Whitelister.whitelist.get(url)) {
                     out.write(player + "\n");
                 }
+                out.close();
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean writeJsonWhitelist() {
+
+        File whitelistSave;
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try {
+            int listCount = 0;
+            for (String url : Whitelister.whitelist.keySet()) {
+                listCount++;
+                whitelistSave = new File(MinecraftServer.getServer().getFolderName(), "../whitelist-" + listCount + ".json");
+                if (whitelistSave.exists()) whitelistSave.delete();
+                if (!whitelistSave.createNewFile()) {
+                    Whitelister.log.info("Error saving whitelist");
+                }
+                BufferedWriter out = new BufferedWriter(new FileWriter(whitelistSave));
+                out.write(gson.toJson(Whitelister.whitelist.get(url)).toString());
                 out.close();
             }
             return true;

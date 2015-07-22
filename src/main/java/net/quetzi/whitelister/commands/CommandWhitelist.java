@@ -42,7 +42,7 @@ public class CommandWhitelist extends CommandBase {
     @Override
     public List getCommandAliases() {
 
-        return null;
+        return aliases;
     }
 
     @Override
@@ -63,7 +63,8 @@ public class CommandWhitelist extends CommandBase {
                 commandSender.addChatMessage(new ChatComponentText(Refs.DISABLED));
             } else if (args[0].equalsIgnoreCase("export")) {
                 WhitelistFetcher.writeWhitelist();
-                commandSender.addChatMessage(new ChatComponentText("Remote whitelist written to whitelist-export.txt."));
+                WhitelistFetcher.writeJsonWhitelist();
+                commandSender.addChatMessage(new ChatComponentText("Remote whitelist saved."));
             } else if (args[0].equalsIgnoreCase("list")) {
                 String list = "Users: ";
                 Iterator<Set<String>> listIterator = Whitelister.whitelist.values().iterator();
@@ -82,6 +83,7 @@ public class CommandWhitelist extends CommandBase {
 
     }
 
+    @Override
     public int getRequiredPermissionLevel() {
 
         return 3;
