@@ -116,7 +116,7 @@ public class WhitelistFetcher implements Runnable {
                     tempList.add(inputLine.toLowerCase());
                 }
                 if (!tempList.isEmpty()) {
-                    if(!urlString.equalsIgnoreCase("Cannot connect to localhost as bashtech:")) {
+                    if(!tempList.contains("cannot connect to localhost as bashtech:")) {
                         Whitelister.whitelist.put(urlString, tempList);
                     } else {
                         return false;
