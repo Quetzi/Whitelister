@@ -33,13 +33,13 @@ public class Whitelister {
     public static int checkInterval;
     public static HashMap<String, Set<String>> whitelist = new HashMap<String, Set<String>>();
     public static String kickMessage;
+    public static String[] defaultUrls = { "http://example.com/whitelist.txt", "http://example.com/whitelist2.txt" };
+    public static String[] defaultJsonUrls = { "http://example.com/whitelist.json", "http://example.com/whitelist2.json" };
 
     @Mod.EventHandler
     @SideOnly(Side.SERVER)
     public void PreInit(FMLPreInitializationEvent event) {
 
-        String[] defaultUrls = { "http://example.com/whitelist.txt", "http://example.com/whitelist2.txt" };
-        String[] defaultJsonUrls = { "http://example.com/whitelist.json", "http://example.com/whitelist2.json" };
         log = event.getModLog();
         config = new Configuration(event.getSuggestedConfigurationFile());
 

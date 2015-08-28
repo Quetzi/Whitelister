@@ -16,6 +16,7 @@ import java.util.*;
  */
 public class WhitelistFetcher implements Runnable {
 
+    @Override
     public void run() {
 
         Thread.currentThread().setName("Whitelister");
@@ -91,20 +92,32 @@ public class WhitelistFetcher implements Runnable {
         HashMap<String, Set<String>> cachedWhitelist = Whitelister.whitelist;
         int successCount = 0;
         Whitelister.whitelist = new HashMap<String, Set<String>>();
-        for(String url : Whitelister.urlList) {
-            if (processList(url)) {
-                successCount++;
-            } else {
-                Whitelister.log.warn("Failed to fetch whitelist from " + url + " using cached list for this source");
-                Whitelister.whitelist.put(url, cachedWhitelist.get(url));
+        if (!Arrays.equals(Whitelister.defaultUrls, Whitelister.urlList)) {
+            for (String url : Whitelister.urlList) {
+                if (processList(url, false)) {
+                    successCount++;
+                } else {
+                    Whitelister.log.warn("Failed to fetch whitelist from " + url + " using cached list for this source");
+                    Whitelister.whitelist.put(url, cachedWhitelist.get(url));
+                }
+            }
+        }
+        if (!Arrays.equals(Whitelister.defaultJsonUrls, Whitelister.jsonList)) {
+            for (String url : Whitelister.jsonList) {
+                if (processList(url, true)) {
+                    successCount++;
+                } else {
+                    Whitelister.log.warn("Failed to fetch whitelist from " + url + " using cached list for this source");
+                    Whitelister.whitelist.put(url, cachedWhitelist.get(url));
+                }
             }
         }
         return successCount;
     }
 
-    private static boolean processList(String url) {
+    private static boolean processList(String url, boolean isJson) {
 
-        if ( url.contains("json")) {
+        if (isJson) {
             return getRemoteJsonWhitelist(url);
         } else {
             return getRemoteWhitelist(url);
