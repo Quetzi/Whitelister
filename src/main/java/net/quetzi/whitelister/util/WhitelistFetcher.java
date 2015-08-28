@@ -2,6 +2,7 @@ package net.quetzi.whitelister.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 import net.minecraft.server.MinecraftServer;
 import net.quetzi.whitelister.Whitelister;
 
@@ -75,7 +76,7 @@ public class WhitelistFetcher implements Runnable {
                     Whitelister.log.info("Error saving whitelist");
                 }
                 BufferedWriter out = new BufferedWriter(new FileWriter(whitelistSave));
-                out.write(gson.toJson(Whitelister.whitelist.get(url)).toString());
+                out.write(gson.toJson(Whitelister.whitelist.get(url)));
                 out.close();
             }
             return true;
@@ -91,7 +92,7 @@ public class WhitelistFetcher implements Runnable {
         int successCount = 0;
         Whitelister.whitelist = new HashMap<String, Set<String>>();
         for(String url : Whitelister.urlList) {
-            if (getRemoteWhitelist(url)) {
+            if (processList(url)) {
                 successCount++;
             } else {
                 Whitelister.log.warn("Failed to fetch whitelist from " + url + " using cached list for this source");
@@ -101,6 +102,14 @@ public class WhitelistFetcher implements Runnable {
         return successCount;
     }
 
+    private static boolean processList(String url) {
+
+        if ( url.contains("json")) {
+            return getRemoteJsonWhitelist(url);
+        } else {
+            return getRemoteWhitelist(url);
+        }
+    }
     private static boolean getRemoteWhitelist(String urlString) {
 
         try {
@@ -138,6 +147,42 @@ public class WhitelistFetcher implements Runnable {
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+        return false;
+    }
+
+    public class Users {
+        String whitelist_name;
+        int active;
+        int manual;
+    }
+
+    private static boolean getRemoteJsonWhitelist(String urlString) {
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            try {
+                BufferedReader in = new BufferedReader((new InputStreamReader(conn.getInputStream())));
+                JsonReader r = new JsonReader(in);
+                Set<Users> jsonInput = new HashSet<Users>();
+                Gson gson = new Gson();
+                jsonInput = gson.fromJson(in, jsonInput.getClass());
+                if (jsonInput.isEmpty()) {
+                    return false;
+                } else {
+                    Set<String> tempList = new HashSet<String>();
+                    for (Users user : jsonInput) {
+                        tempList.add(user.whitelist_name);
+                    }
+                    Whitelister.whitelist.put(urlString, tempList);
+                }
+            } catch (IOException ex) {
+                Whitelister.log.error(ex.getMessage());
+                return false;
+            }
+            return true;
+        } catch (Exception ex) {
+            Whitelister.log.error(ex.getMessage());
         }
         return false;
     }

@@ -29,6 +29,7 @@ public class Whitelister {
     public static Configuration config;
     public static boolean isEnabled;
     public static String[] urlList;
+    public static String[] jsonList;
     public static int checkInterval;
     public static HashMap<String, Set<String>> whitelist = new HashMap<String, Set<String>>();
     public static String kickMessage;
@@ -38,12 +39,14 @@ public class Whitelister {
     public void PreInit(FMLPreInitializationEvent event) {
 
         String[] defaultUrls = { "http://example.com/whitelist.txt", "http://example.com/whitelist2.txt" };
+        String[] defaultJsonUrls = { "http://example.com/whitelist.json", "http://example.com/whitelist2.json" };
         log = event.getModLog();
         config = new Configuration(event.getSuggestedConfigurationFile());
 
         config.load();
         isEnabled = config.getBoolean("isEnabled", Refs.CFGGENERAL, false, "Enable the whitelist");
-        urlList = config.getStringList("urlList", Refs.CFGGENERAL, defaultUrls, "Comma separated url List");
+        urlList = config.getStringList("urlList", Refs.CFGGENERAL, defaultUrls, "Comma separated url List of plain text files");
+        jsonList = config.getStringList("jsonList", Refs.CFGGENERAL, defaultJsonUrls, "Comma separated url List of json files");
         checkInterval = config.getInt("checkInterval", Refs.CFGGENERAL, 10, 1, 32000, "Time between checks in minutes");
         kickMessage = config.getString("kickMessage", Refs.CFGGENERAL, "You are not on the whitelist", "Kick message");
 
