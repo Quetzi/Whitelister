@@ -3,7 +3,6 @@ package net.quetzi.whitelister.commands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.quetzi.whitelister.Whitelister;
 import net.quetzi.whitelister.util.Refs;
@@ -24,25 +23,19 @@ public class CommandWhitelist extends CommandBase {
     }
 
     @Override
-    public int compareTo(Object arg0) {
-
-        return 0;
-    }
-
-    @Override
     public String getCommandName() {
 
         return "whitelister";
     }
 
     @Override
-    public String getUsage(ICommandSender var1) {
+    public String getCommandUsage(ICommandSender var1) {
 
         return "Syntax: /wl reload, /wl enable, /wl disable, /wl export, /wl list, /wl maintenance";
     }
 
     @Override
-    public List getAliases() {
+    public List getCommandAliases() {
 
         aliases.add("qwl");
         aliases.add("wl");
@@ -66,11 +59,9 @@ public class CommandWhitelist extends CommandBase {
                 Whitelister.config.save();
                 commandSender.addChatMessage(new ChatComponentText(Refs.DISABLED));
             } else if (args[0].equalsIgnoreCase("export")) {
-                if (WhitelistFetcher.writeWhitelist()) {
-                    commandSender.addChatMessage(new ChatComponentText("Remote whitelist written to whitelist-export.txt."));
-                } else {
-                    commandSender.addChatMessage(new ChatComponentText("Whitelist export failed."));
-                }
+                WhitelistFetcher.writeWhitelist();
+                WhitelistFetcher.writeJsonWhitelist();
+                commandSender.addChatMessage(new ChatComponentText("Remote whitelist saved."));
             } else if (args[0].equalsIgnoreCase("list")) {
                 String list = "Users: ";
                 Iterator<Set<String>> listIterator = Whitelister.whitelist.values().iterator();
@@ -95,6 +86,6 @@ public class CommandWhitelist extends CommandBase {
     @Override
     public int getRequiredPermissionLevel() {
 
-        return 3;
+        return 4;
     }
 }

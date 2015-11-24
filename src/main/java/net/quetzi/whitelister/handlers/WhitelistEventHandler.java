@@ -19,7 +19,7 @@ public class WhitelistEventHandler {
 
         if(!Whitelister.isEnabled) return;
         for (String player : MinecraftServer.getServer().getConfigurationManager().getOppedPlayerNames()) {
-            if (player.toLowerCase().equals(event.player.getName().toLowerCase())) {
+            if (player.toLowerCase().equals(event.player.getCommandSenderName().toLowerCase())) {
                 Whitelister.log.info("Allowing exempt " + event.player.getGameProfile().getName());
                 return;
             }
