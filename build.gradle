@@ -25,7 +25,7 @@ project.ext {
     } else {
         build = "-custom"
     }
-    mcVersion = "1.8.8"
+    mcVersion = "1.8.9"
 }
 
 
@@ -34,9 +34,9 @@ group = "net.quetzi.whitelister"
 archivesBaseName = "Whitelister"
 
 minecraft {
-    version = "${project.ext.mcVersion}-11.14.4.1576-1.8.8"
+    version = "${project.ext.mcVersion}-11.15.0.1688"
     runDir = "eclipse"
-    mappings = "snapshot_20151123"
+    mappings = "snapshot_20160108"
 
     // replacing stuff in the source
     replace '@MAJOR@', project.major
