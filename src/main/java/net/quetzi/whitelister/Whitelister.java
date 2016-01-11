@@ -28,6 +28,7 @@ public class Whitelister {
     public static Logger log = LogManager.getLogger("Whitelister");
     public static Configuration config;
     public static boolean isEnabled;
+    public static boolean headcrumbsCompat;
     public static String[] urlList;
     public static String[] jsonList;
     public static int checkInterval;
@@ -49,6 +50,7 @@ public class Whitelister {
         jsonList = config.getStringList("jsonList", Refs.CFGGENERAL, defaultJsonUrls, "Comma separated url List of json files");
         checkInterval = config.getInt("checkInterval", Refs.CFGGENERAL, 10, 1, 32000, "Time between checks in minutes");
         kickMessage = config.getString("kickMessage", Refs.CFGGENERAL, "You are not on the whitelist", "Kick message");
+        headcrumbsCompat = config.getBoolean("headcrumbsCompat", Refs.CFGGENERAL, false, "Add all whitelisted players to Headcrumbs player list");
 
         if(config.hasChanged()) config.save();
         if (isEnabled && urlList.length > 0) {

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.quetzi.whitelister.Whitelister;
 
 import java.io.*;
@@ -109,6 +111,14 @@ public class WhitelistFetcher implements Runnable {
                 } else {
                     Whitelister.log.warn("Failed to fetch whitelist from " + url + " using cached list for this source");
                     Whitelister.whitelist.put(url, cachedWhitelist.get(url));
+                }
+            }
+            // Add to Headcrumbs
+            if (Loader.isModLoaded("headcrumbs") && Whitelister.headcrumbsCompat) {
+                for (Set<String> strings : Whitelister.whitelist.values()) {
+                    for (String s : strings) {
+                        FMLInterModComms.sendMessage("headcrumbs", "add-username", s);
+                    }
                 }
             }
         }
