@@ -1,7 +1,9 @@
 package net.quetzi.whitelister;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -70,5 +72,14 @@ public class Whitelister {
     public void serverLoad(FMLServerStartingEvent event) {
 
         event.registerServerCommand(new CommandWhitelist());
+
+        // Add to Headcrumbs
+        if (headcrumbsCompat) {
+            for (Set<String> strings : whitelist.values()) {
+                for (String s : strings) {
+                    FMLInterModComms.sendMessage("headcrumbs", "add-username", s);
+                }
+            }
+        }
     }
 }
