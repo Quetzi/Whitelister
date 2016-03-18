@@ -1,8 +1,8 @@
 package net.quetzi.whitelister.handlers;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.quetzi.whitelister.Whitelister;
@@ -18,7 +18,7 @@ public class WhitelistEventHandler {
     public void PlayerLoggedInHandler(PlayerEvent.PlayerLoggedInEvent event) {
 
         if(!Whitelister.isEnabled) return;
-        for (String player : MinecraftServer.getServer().getConfigurationManager().getOppedPlayerNames()) {
+        for (String player : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getOppedPlayerNames()) {
             if (player.toLowerCase().equals(event.player.getName().toLowerCase())) {
                 Whitelister.log.info("Allowing exempt " + event.player.getGameProfile().getName());
                 return;
@@ -32,8 +32,8 @@ public class WhitelistEventHandler {
         } else {
             Whitelister.log.info("Allowing " + event.player.getGameProfile().getName());
         }
-        if (MinecraftServer.getServer().getConfigurationManager().isWhiteListEnabled()) {
-            event.player.addChatMessage(new ChatComponentText("WHITELIST IS CURRENTLY IN MAINTENANCE MODE"));
+        if (FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().isWhiteListEnabled()) {
+            event.player.addChatMessage(new TextComponentString("WHITELIST IS CURRENTLY IN MAINTENANCE MODE"));
         }
     }
 

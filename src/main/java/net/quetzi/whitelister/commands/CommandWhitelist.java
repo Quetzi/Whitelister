@@ -3,7 +3,8 @@ package net.quetzi.whitelister.commands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.quetzi.whitelister.Whitelister;
 import net.quetzi.whitelister.util.Refs;
 import net.quetzi.whitelister.util.WhitelistFetcher;
@@ -43,7 +44,7 @@ public class CommandWhitelist extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender commandSender, String[] args) {
+    public void execute(MinecraftServer server, ICommandSender commandSender, String[] args) {
 
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("reload")) {
@@ -52,16 +53,16 @@ public class CommandWhitelist extends CommandBase {
                 Whitelister.isEnabled = true;
                 Whitelister.config.get("Settings", "WhitelistEnabled", false).set(true);
                 Whitelister.config.save();
-                commandSender.addChatMessage(new ChatComponentText(Refs.ENABLED));
+                commandSender.addChatMessage(new TextComponentString(Refs.ENABLED));
             } else if (args[0].equalsIgnoreCase("disable")) {
                 Whitelister.isEnabled = false;
                 Whitelister.config.get("Settings", "WhitelistEnabled", false).set(false);
                 Whitelister.config.save();
-                commandSender.addChatMessage(new ChatComponentText(Refs.DISABLED));
+                commandSender.addChatMessage(new TextComponentString(Refs.DISABLED));
             } else if (args[0].equalsIgnoreCase("export")) {
                 WhitelistFetcher.writeWhitelist();
                 WhitelistFetcher.writeJsonWhitelist();
-                commandSender.addChatMessage(new ChatComponentText("Remote whitelist saved."));
+                commandSender.addChatMessage(new TextComponentString("Remote whitelist saved."));
             } else if (args[0].equalsIgnoreCase("list")) {
                 String list = "Users: ";
                 Iterator<Set<String>> listIterator = Whitelister.whitelist.values().iterator();
@@ -74,12 +75,12 @@ public class CommandWhitelist extends CommandBase {
                         }
                     }
                 }
-                commandSender.addChatMessage(new ChatComponentText(list));
+                commandSender.addChatMessage(new TextComponentString(list));
             } else if (args[0].equals("maintenance")) {
-                MinecraftServer.getServer().getConfigurationManager().setWhiteListEnabled(!MinecraftServer.getServer().getConfigurationManager().isWhiteListEnabled());
-                commandSender.addChatMessage(new ChatComponentText("Maintenance whitelist is now " + (MinecraftServer.getServer().getConfigurationManager().isWhiteListEnabled() ? "enabled" : "disabled")));
+                FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().setWhiteListEnabled(!FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().isWhiteListEnabled());
+                commandSender.addChatMessage(new TextComponentString("Maintenance whitelist is now " + (FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().isWhiteListEnabled() ? "enabled" : "disabled")));
             }
-        } else commandSender.addChatMessage(new ChatComponentText(Refs.WHITELISTCMD_SYNTAX));
+        } else commandSender.addChatMessage(new TextComponentString(Refs.WHITELISTCMD_SYNTAX));
 
     }
 

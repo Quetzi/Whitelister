@@ -3,7 +3,7 @@ package net.quetzi.whitelister.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.quetzi.whitelister.Whitelister;
@@ -46,7 +46,7 @@ public class WhitelistFetcher implements Runnable {
 
             for (String url : Whitelister.whitelist.keySet()) {
                 listCount++;
-                whitelistSave = new File(MinecraftServer.getServer().getFolderName(), "../whitelist-" + listCount + ".txt");
+                whitelistSave = new File(FMLCommonHandler.instance().getMinecraftServerInstance().getFolderName(), "../whitelist-" + listCount + ".txt");
                 if (whitelistSave.exists()) whitelistSave.delete();
                 if (!whitelistSave.createNewFile()) {
                     Whitelister.log.info("Error saving whitelist");
@@ -73,7 +73,7 @@ public class WhitelistFetcher implements Runnable {
             int listCount = 0;
             for (String url : Whitelister.whitelist.keySet()) {
                 listCount++;
-                whitelistSave = new File(MinecraftServer.getServer().getFolderName(), "../whitelist-" + listCount + ".json");
+                whitelistSave = new File(FMLCommonHandler.instance().getMinecraftServerInstance().getFolderName(), "../whitelist-" + listCount + ".json");
                 if (whitelistSave.exists()) whitelistSave.delete();
                 if (!whitelistSave.createNewFile()) {
                     Whitelister.log.info("Error saving whitelist");
