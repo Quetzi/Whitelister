@@ -36,7 +36,7 @@ public class CommandWhitelist extends CommandBase {
     }
 
     @Override
-    public List getCommandAliases() {
+    public List<String> getCommandAliases() {
 
         aliases.add("qwl");
         aliases.add("wl");

@@ -23,7 +23,7 @@ import net.minecraftforge.common.config.Configuration;
  * Created by Quetzi on 24/09/14.
  */
 
-@Mod(modid = Refs.MODID, name = Refs.NAME, version = Refs.VERSION, dependencies = "required-after:Forge@[11.14.0.1239,);", acceptableRemoteVersions = "*")
+@Mod(modid = Refs.MODID, name = Refs.NAME, version = Refs.VERSION, dependencies = "required-after:Forge@[12.16.0.1811,);", acceptableRemoteVersions = "*")
 public class Whitelister {
 
     public static Logger log = LogManager.getLogger("Whitelister");
