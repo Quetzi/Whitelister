@@ -28,7 +28,7 @@ public class WhitelistEventHandler {
         if (!isWhitelisted(event.player.getGameProfile().getName().toLowerCase())) {
             Whitelister.log.info(event.player.getGameProfile().getName() + " not on whitelist.");
             Whitelister.log.info("Blocking " + event.player.getGameProfile().getName());
-            ((EntityPlayerMP) event.player).playerNetServerHandler.kickPlayerFromServer(Whitelister.kickMessage);
+            ((EntityPlayerMP) event.player).connection.kickPlayerFromServer(Whitelister.kickMessage);
         } else {
             Whitelister.log.info("Allowing " + event.player.getGameProfile().getName());
         }
