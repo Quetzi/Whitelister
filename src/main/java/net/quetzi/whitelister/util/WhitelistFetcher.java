@@ -131,6 +131,18 @@ public class WhitelistFetcher implements Runnable
                     Whitelister.whitelist.put(url, cachedWhitelist.get(url));
                 }
             }
+            // TODO: Make this code only run once (or just send difference)
+//            // Add to Headcrumbs
+//            if (Loader.isModLoaded("headcrumbs") && Whitelister.headcrumbsCompat)
+//            {
+//                for (Set<String> strings : Whitelister.whitelist.values())
+//                {
+//                    for (String s : strings)
+//                    {
+//                        FMLInterModComms.sendMessage("headcrumbs", "add-username", s);
+//                    }
+//                }
+//            }
         }
         if (!Arrays.equals(Whitelister.defaultJsonUrls, Whitelister.jsonList))
         {
@@ -146,17 +158,18 @@ public class WhitelistFetcher implements Runnable
                     Whitelister.whitelist.put(url, cachedWhitelist.get(url));
                 }
             }
-            // Add to Headcrumbs
-            if (Loader.isModLoaded("headcrumbs") && Whitelister.headcrumbsCompat)
-            {
-                for (Set<String> strings : Whitelister.whitelist.values())
-                {
-                    for (String s : strings)
-                    {
-                        FMLInterModComms.sendMessage("headcrumbs", "add-username", s);
-                    }
-                }
-            }
+            // TODO: Make this code only run once (or just send difference)
+//            // Add to Headcrumbs
+//            if (Loader.isModLoaded("headcrumbs") && Whitelister.headcrumbsCompat)
+//            {
+//                for (Set<String> strings : Whitelister.whitelist.values())
+//                {
+//                    for (String s : strings)
+//                    {
+//                        FMLInterModComms.sendMessage("headcrumbs", "add-username", s);
+//                    }
+//                }
+//            }
         }
         return successCount;
     }
@@ -226,7 +239,7 @@ public class WhitelistFetcher implements Runnable
         return false;
     }
 
-    public class Users
+    private class Users
     {
         String whitelist_name;
         int    active;
