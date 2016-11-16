@@ -22,7 +22,7 @@ import java.util.Set;
  * Created by Quetzi on 24/09/14.
  */
 
-@Mod(modid = Refs.MODID, name = Refs.NAME, version = Refs.VERSION, dependencies = "required-after:Forge@[12.18.1.2011,);", acceptableRemoteVersions = "*")
+@Mod(modid = Refs.MODID, name = Refs.NAME, version = Refs.VERSION, dependencies = "required-after:Forge@[13.19.0.2130,);", acceptableRemoteVersions = "*")
 public class Whitelister
 {
     public static Logger log = LogManager.getLogger("Whitelister");
