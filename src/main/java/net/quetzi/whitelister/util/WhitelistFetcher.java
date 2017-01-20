@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.quetzi.whitelister.Whitelister;
 
 import java.io.BufferedReader;
@@ -45,7 +43,8 @@ public class WhitelistFetcher implements Runnable
             try
             {
                 Thread.currentThread().sleep(Whitelister.checkInterval * 60000);
-            } catch (InterruptedException e)
+            }
+            catch (InterruptedException e)
             {
                 e.printStackTrace();
             }
@@ -63,7 +62,10 @@ public class WhitelistFetcher implements Runnable
             {
                 listCount++;
                 whitelistSave = new File(FMLCommonHandler.instance().getMinecraftServerInstance().getFolderName(), "../whitelist-" + listCount + ".txt");
-                if (whitelistSave.exists()) whitelistSave.delete();
+                if (whitelistSave.exists())
+                {
+                    Whitelister.log.info(whitelistSave.delete() ? "Deleted whitelist " + whitelistSave.getName() : "Could not delete whitelist " + whitelistSave.getName());
+                }
                 if (!whitelistSave.createNewFile())
                 {
                     Whitelister.log.info("Error saving whitelist");
@@ -77,7 +79,8 @@ public class WhitelistFetcher implements Runnable
                 out.close();
             }
             return true;
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -95,7 +98,10 @@ public class WhitelistFetcher implements Runnable
             {
                 listCount++;
                 whitelistSave = new File(FMLCommonHandler.instance().getMinecraftServerInstance().getFolderName(), "../whitelist-" + listCount + ".json");
-                if (whitelistSave.exists()) whitelistSave.delete();
+                if (whitelistSave.exists())
+                {
+                    Whitelister.log.info(whitelistSave.delete() ? "Deleted whitelist " + whitelistSave.getName() : "Could not delete whitelist " + whitelistSave.getName());
+                }
                 if (!whitelistSave.createNewFile())
                 {
                     Whitelister.log.info("Error saving whitelist");
@@ -105,7 +111,8 @@ public class WhitelistFetcher implements Runnable
                 out.close();
             }
             return true;
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -115,8 +122,8 @@ public class WhitelistFetcher implements Runnable
     public static int updateWhitelist()
     {
         HashMap<String, Set<String>> cachedWhitelist = Whitelister.whitelist;
-        int successCount = 0;
-        Whitelister.whitelist = new HashMap<String, Set<String>>();
+        int                          successCount    = 0;
+        Whitelister.whitelist = new HashMap<>();
         if (!Arrays.equals(Whitelister.defaultUrls, Whitelister.urlList))
         {
             for (String url : Whitelister.urlList)
@@ -185,19 +192,20 @@ public class WhitelistFetcher implements Runnable
             return getRemoteWhitelist(url);
         }
     }
+
     private static boolean getRemoteWhitelist(String urlString)
     {
         try
         {
-            URL url = new URL(urlString);
+            URL               url  = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
             try
             {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-                Set<String> tempList = new HashSet<String>();
-                String inputLine;
+                Set<String> tempList = new HashSet<>();
+                String      inputLine;
                 while ((inputLine = in.readLine()) != null)
                 {
                     inputLine = inputLine.trim();
@@ -215,14 +223,15 @@ public class WhitelistFetcher implements Runnable
                     }
                 }
                 in.close();
-            } catch (IOException e)
+            }
+            catch (IOException e)
             {
-                String errorIn = "";
+                String      errorIn     = "";
                 InputStream errorStream = conn.getErrorStream();
                 if (errorStream != null)
                 {
                     BufferedReader inE = new BufferedReader(new InputStreamReader(errorStream));
-                    String inputLine;
+                    String         inputLine;
                     while ((inputLine = inE.readLine()) != null)
                     {
                         errorIn = errorIn + inputLine;
@@ -232,7 +241,8 @@ public class WhitelistFetcher implements Runnable
                 return false;
             }
             return true;
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             ex.printStackTrace();
         }
@@ -250,14 +260,14 @@ public class WhitelistFetcher implements Runnable
     {
         try
         {
-            URL url = new URL(urlString);
+            URL               url  = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             try
             {
-                BufferedReader in = new BufferedReader((new InputStreamReader(conn.getInputStream())));
-                JsonReader r = new JsonReader(in);
-                Set<Users> jsonInput = new HashSet<Users>();
-                Gson gson = new Gson();
+                BufferedReader in        = new BufferedReader((new InputStreamReader(conn.getInputStream())));
+                JsonReader     r         = new JsonReader(in);
+                Set<Users>     jsonInput = new HashSet<>();
+                Gson           gson      = new Gson();
                 jsonInput = gson.fromJson(in, jsonInput.getClass());
                 if (jsonInput.isEmpty())
                 {
@@ -265,20 +275,22 @@ public class WhitelistFetcher implements Runnable
                 }
                 else
                 {
-                    Set<String> tempList = new HashSet<String>();
+                    Set<String> tempList = new HashSet<>();
                     for (Users user : jsonInput)
                     {
                         tempList.add(user.whitelist_name);
                     }
                     Whitelister.whitelist.put(urlString, tempList);
                 }
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
                 Whitelister.log.error(ex.getMessage());
                 return false;
             }
             return true;
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             Whitelister.log.error(ex.getMessage());
         }

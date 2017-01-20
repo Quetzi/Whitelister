@@ -1,5 +1,6 @@
 package net.quetzi.whitelister;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -25,7 +26,7 @@ import java.util.Set;
 @Mod(modid = Refs.MODID,
         name = Refs.NAME,
         version = Refs.VERSION,
-        dependencies = "required-after:forge@[13.19.0.2130,);",
+        dependencies = "required-after:forge@[13.20.0.2223,);",
         acceptableRemoteVersions = "*",
         acceptedMinecraftVersions = "[1.11,1.12)"
 )
@@ -38,7 +39,7 @@ public class Whitelister
     public static String[]      urlList;
     public static String[]      jsonList;
     public static int           checkInterval;
-    public static HashMap<String, Set<String>> whitelist = new HashMap<String, Set<String>>();
+    public static HashMap<String, Set<String>> whitelist = new HashMap<>();
     public static String kickMessage;
     public static String[] defaultUrls     = {"http://example.com/whitelist.txt", "http://example.com/whitelist2.txt"};
     public static String[] defaultJsonUrls = {"http://example.com/whitelist.json", "http://example.com/whitelist2.json"};
@@ -69,7 +70,7 @@ public class Whitelister
     @SideOnly(Side.SERVER)
     public void PostInit(FMLPostInitializationEvent event)
     {
-        FMLCommonHandler.instance().bus().register(new WhitelistEventHandler());
+        MinecraftForge.EVENT_BUS.register(new WhitelistEventHandler());
     }
 
     @Mod.EventHandler

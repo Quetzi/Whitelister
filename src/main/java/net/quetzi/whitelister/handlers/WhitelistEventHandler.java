@@ -31,7 +31,7 @@ public class WhitelistEventHandler
         {
             Whitelister.log.info(event.player.getGameProfile().getName() + " not on whitelist.");
             Whitelister.log.info("Blocking " + event.player.getGameProfile().getName());
-            ((EntityPlayerMP) event.player).connection.kickPlayerFromServer(Whitelister.kickMessage);
+            ((EntityPlayerMP) event.player).connection.disconnect(Whitelister.kickMessage);
         }
         else
         {
@@ -39,7 +39,7 @@ public class WhitelistEventHandler
         }
         if (FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().isWhiteListEnabled())
         {
-            event.player.addChatMessage(new TextComponentString("WHITELIST IS CURRENTLY IN MAINTENANCE MODE"));
+            event.player.sendMessage(new TextComponentString("WHITELIST IS CURRENTLY IN MAINTENANCE MODE"));
         }
     }
 

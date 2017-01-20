@@ -1,0 +1,20 @@
+[
+{
+  "modid" : "whitelister",
+  "name" : "Whitelister",
+  "version" : "${version}",
+  "url" : "http://www.curse.com/mc-mods/Minecraft/whitelister",
+  "credits" : "",
+  "authorList": [
+    "Quetzi"
+  ],
+  "description": "Whitelister helps server admins manage their whitelists by providing a way to pull in and use multiple web based whitelists",
+  "updateUrl" : "",
+  "parent" : "",
+  "screenshots": [
+  ],
+  "dependencies": [
+    "forge"
+  ]
+}
+]

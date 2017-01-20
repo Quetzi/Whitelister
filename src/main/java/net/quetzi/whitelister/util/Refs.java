@@ -5,7 +5,7 @@ package net.quetzi.whitelister.util;
  */
 public class Refs
 {
-    public static final  String MODID      = "Whitelister";
+    public static final  String MODID      = "whitelister";
     public static final  String NAME       = "Whitelister";
     private static final String MAJOR      = "@MAJOR@";
     private static final String MINOR      = "@MINOR@";
