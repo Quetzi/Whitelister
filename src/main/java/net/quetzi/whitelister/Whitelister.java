@@ -2,7 +2,6 @@ package net.quetzi.whitelister;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -26,9 +25,9 @@ import java.util.Set;
 @Mod(modid = Refs.MODID,
         name = Refs.NAME,
         version = Refs.VERSION,
-        dependencies = "required-after:forge@[13.20.0.2223,);",
+        dependencies = "required-after:forge@[14.21.0.2320,);",
         acceptableRemoteVersions = "*",
-        acceptedMinecraftVersions = "[1.11,1.12)"
+        acceptedMinecraftVersions = "[1.12,1.13)"
 )
 public class Whitelister
 {
