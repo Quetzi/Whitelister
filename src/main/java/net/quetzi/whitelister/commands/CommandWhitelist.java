@@ -73,27 +73,33 @@ public class CommandWhitelist extends CommandBase
             }
             else if (args[0].equalsIgnoreCase("export"))
             {
-                WhitelistFetcher.writeWhitelist();
-                WhitelistFetcher.writeJsonWhitelist();
-                sender.sendMessage(new TextComponentString("Remote whitelist saved."));
+                sender.sendMessage(new TextComponentString("Text whitelist " + (WhitelistFetcher.writeWhitelist() ? "saved." : "failed to save.")));
+                sender.sendMessage(new TextComponentString("JSON whitelist " + (WhitelistFetcher.writeJsonWhitelist() ? "saved." : "failed to save.")));
             }
             else if (args[0].equalsIgnoreCase("list"))
             {
-                String                list         = "Users: ";
-                Iterator<Set<String>> listIterator = Whitelister.whitelist.values().iterator();
-                while (listIterator.hasNext())
+                StringBuilder list = new StringBuilder("Users: ");
+                if (!Whitelister.whitelist.isEmpty())
                 {
-                    Iterator<String> playerIterator = listIterator.next().iterator();
-                    while (playerIterator.hasNext())
+                    Iterator<Set<String>> listIterator = Whitelister.whitelist.values().iterator();
+                    while (listIterator.hasNext())
                     {
-                        list = list + playerIterator.next();
-                        if (playerIterator.hasNext() || listIterator.hasNext())
+                        Iterator<String> playerIterator = listIterator.next().iterator();
+                        while (playerIterator.hasNext())
                         {
-                            list = list + ", ";
+                            list.append(playerIterator.next());
+                            if (playerIterator.hasNext() || listIterator.hasNext())
+                            {
+                                list.append(", ");
+                            }
                         }
                     }
+                    sender.sendMessage(new TextComponentString(list.toString()));
                 }
-                sender.sendMessage(new TextComponentString(list));
+                else
+                {
+                    sender.sendMessage((new TextComponentString("There are no whitelists loaded.")));
+                }
             }
             else if (args[0].equals("maintenance"))
             {
