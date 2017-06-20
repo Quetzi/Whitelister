@@ -31,7 +31,7 @@ public class WhitelistEventHandler
         {
             Whitelister.log.info(event.player.getGameProfile().getName() + " not on whitelist.");
             Whitelister.log.info("Blocking " + event.player.getGameProfile().getName());
-            ((EntityPlayerMP) event.player).connection.onDisconnect(new TextComponentString(Whitelister.kickMessage));
+            ((EntityPlayerMP) event.player).connection.disconnect(Whitelister.kickMessage);
         }
         else
         {
