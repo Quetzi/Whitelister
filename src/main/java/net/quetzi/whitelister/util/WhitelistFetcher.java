@@ -2,7 +2,6 @@ package net.quetzi.whitelister.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.quetzi.whitelister.Whitelister;
 
@@ -19,6 +18,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Quetzi on 24/09/14.
@@ -138,18 +138,6 @@ public class WhitelistFetcher implements Runnable
                     Whitelister.whitelist.put(url, cachedWhitelist.get(url));
                 }
             }
-            // TODO: Make this code only run once (or just send difference)
-//            // Add to Headcrumbs
-//            if (Loader.isModLoaded("headcrumbs") && Whitelister.headcrumbsCompat)
-//            {
-//                for (Set<String> strings : Whitelister.whitelist.values())
-//                {
-//                    for (String s : strings)
-//                    {
-//                        FMLInterModComms.sendMessage("headcrumbs", "add-username", s);
-//                    }
-//                }
-//            }
         }
         if (!Arrays.equals(Whitelister.defaultJsonUrls, Whitelister.jsonList))
         {
@@ -165,18 +153,6 @@ public class WhitelistFetcher implements Runnable
                     Whitelister.whitelist.put(url, cachedWhitelist.get(url));
                 }
             }
-            // TODO: Make this code only run once (or just send difference)
-//            // Add to Headcrumbs
-//            if (Loader.isModLoaded("headcrumbs") && Whitelister.headcrumbsCompat)
-//            {
-//                for (Set<String> strings : Whitelister.whitelist.values())
-//                {
-//                    for (String s : strings)
-//                    {
-//                        FMLInterModComms.sendMessage("headcrumbs", "add-username", s);
-//                    }
-//                }
-//            }
         }
         return successCount;
     }
@@ -265,7 +241,6 @@ public class WhitelistFetcher implements Runnable
             try
             {
                 BufferedReader in        = new BufferedReader((new InputStreamReader(conn.getInputStream())));
-                JsonReader     r         = new JsonReader(in);
                 Set<Users>     jsonInput = new HashSet<>();
                 Gson           gson      = new Gson();
                 jsonInput = gson.fromJson(in, jsonInput.getClass());
@@ -275,11 +250,7 @@ public class WhitelistFetcher implements Runnable
                 }
                 else
                 {
-                    Set<String> tempList = new HashSet<>();
-                    for (Users user : jsonInput)
-                    {
-                        tempList.add(user.whitelist_name);
-                    }
+                    Set<String> tempList = jsonInput.stream().map(user -> user.whitelist_name).collect(Collectors.toSet());
                     Whitelister.whitelist.put(urlString, tempList);
                 }
             }
