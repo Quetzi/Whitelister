@@ -109,7 +109,7 @@ public class CommandWhitelist extends CommandBase
 
     @Nonnull
     @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletions(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args, BlockPos pos)
     {
         if (args.length == 0)
         {
